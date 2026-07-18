@@ -1,0 +1,455 @@
+/* ═══════════════════════════════════════════════════════════
+   RETRO ARCADE PORTFOLIO — Global Styles
+   Tailwind CSS v4 + Design Tokens + CRT Effects
+   ═══════════════════════════════════════════════════════════ */
+
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+/* ── Tailwind v4 Theme Extension ── */
+@theme {
+  --color-bg: var(--bg);
+  --color-bezel: var(--bezel);
+  --color-arcade-blue: var(--blue);
+  --color-arcade-yellow: var(--yellow);
+  --color-arcade-magenta: var(--magenta);
+  --color-arcade-white: var(--white);
+  --color-arcade-slate: var(--slate);
+  --color-bezel-border: var(--bezel-border);
+  --color-input-bg: var(--input-bg);
+  --color-card-bg: var(--card-bg);
+
+  --font-display: 'Silkscreen', monospace;
+  --font-body: 'JetBrains Mono', monospace;
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--blue);
+  color: var(--bg);
+}
+
+/* ── Scrollbar (Arcade-themed) ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bezel);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border: 1px solid var(--bezel);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--yellow);
+}
+
+/* Reader Mode scrollbar */
+[data-mode="reader"] ::-webkit-scrollbar-thumb {
+  background: #999;
+}
+[data-mode="reader"] ::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+/* ── Focus States (§9 - non-negotiable) ── */
+:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* ── Custom Cursor (§7.9) ── */
+body {
+  cursor: default;
+}
+
+a, button, [role="button"], input[type="submit"], 
+label, select, [tabindex]:not([tabindex="-1"]) {
+  cursor: crosshair;
+}
+
+[data-mode="reader"] a,
+[data-mode="reader"] button,
+[data-mode="reader"] [role="button"] {
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CRT SCANLINE OVERLAY (Arcade Mode only)
+   ═══════════════════════════════════════════════════════════ */
+
+.crt-scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+[data-mode="reader"] .crt-scanlines::after {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEPPED TRANSITION UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+
+/* Screen-wipe transition for section changes */
+@keyframes screen-wipe {
+  0% {
+    opacity: 0;
+    filter: brightness(2.5);
+  }
+  30% {
+    opacity: 0.5;
+    filter: brightness(1.8);
+  }
+  60% {
+    opacity: 0.85;
+    filter: brightness(1.2);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+.screen-wipe-enter {
+  animation: screen-wipe 380ms steps(6) forwards;
+}
+
+/* Bar fill animation */
+@keyframes fill-bar {
+  from { width: 0%; }
+}
+
+/* Count-up flicker */
+@keyframes counter-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Neon glow pulse */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--blue-glow), 0 0 20px var(--blue-glow);
+  }
+  50% {
+    box-shadow: 0 0 15px var(--blue-glow), 0 0 30px var(--blue-glow), 0 0 45px var(--blue-glow);
+  }
+}
+
+/* Subtle screen flicker for easter egg */
+@keyframes screen-flicker {
+  0% { opacity: 1; }
+  10% { opacity: 0.3; }
+  20% { opacity: 1; }
+  30% { opacity: 0.5; }
+  40% { opacity: 1; }
+  50% { opacity: 0.2; }
+  60% { opacity: 1; }
+  70% { opacity: 0.7; }
+  80% { opacity: 0.3; }
+  90% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTON PRESS PHYSICS (§5 — Physical sink)
+   ═══════════════════════════════════════════════════════════ */
+
+.arcade-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--bg);
+  background: var(--yellow);
+  border: 2px solid var(--yellow);
+  box-shadow: 4px 4px 0 var(--blue);
+  transition: transform 0.05s, box-shadow 0.05s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.arcade-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 transparent;
+}
+
+.arcade-btn:hover {
+  background: var(--white);
+  border-color: var(--white);
+}
+
+.arcade-btn--secondary {
+  background: transparent;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.arcade-btn--secondary:hover {
+  background: var(--blue);
+  color: var(--bg);
+}
+
+.arcade-btn--magenta {
+  background: var(--magenta);
+  border-color: var(--magenta);
+  box-shadow: 4px 4px 0 var(--yellow);
+}
+
+.arcade-btn--magenta:hover {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--magenta);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════ */
+
+.neon-border {
+  border: 1px solid var(--blue);
+  box-shadow: 0 0 10px var(--blue-glow), inset 0 0 10px var(--blue-glow);
+}
+
+.pixel-divider {
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--blue) 0px,
+    var(--blue) 8px,
+    transparent 8px,
+    transparent 12px
+  );
+  opacity: 0.5;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--yellow);
+  text-shadow: 0 0 20px var(--yellow-glow);
+  margin-bottom: 24px;
+  letter-spacing: 0.1em;
+}
+
+[data-mode="reader"] .section-title {
+  text-shadow: none;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px var(--blue-glow), 0 0 20px var(--blue-glow);
+}
+
+[data-mode="reader"] .glow-text {
+  text-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT STYLESHEET (§4.2 — Reader Mode print)
+   ═══════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Strip all arcade chrome */
+  .crt-scanlines::after,
+  .cabinet-screws,
+  .cabinet-vents,
+  .scanline-overlay,
+  .mute-toggle,
+  .mode-toggle,
+  .sidebar-nav,
+  .fake-url-bar,
+  .toast-layer,
+  .high-score-counter {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11pt !important;
+  }
+
+  .main-grid {
+    display: block !important;
+  }
+
+  .main-grid > aside {
+    display: none !important;
+  }
+
+  .cabinet-bezel {
+    border: none !important;
+    box-shadow: none !important;
+    background: white !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  .console-screen {
+    border: none !important;
+    box-shadow: none !important;
+    background: white !important;
+    padding: 0 !important;
+  }
+
+  .arcade-btn {
+    border: 1px solid black !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  .neon-border {
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+
+  a {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+
+  /* Force single page */
+  .section-content {
+    page-break-inside: avoid;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PREFERS REDUCED MOTION (§9 — non-negotiable)
+   ═══════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .screen-wipe-enter {
+    animation: none;
+    opacity: 1;
+    filter: none;
+  }
+
+  .crt-scanlines::after {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN / HANDHELD CONSOLE MODE (< 720px) (§8)
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 720px) {
+  .cabinet-bezel {
+    margin: 0 !important;
+    padding: 6px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    min-height: 100vh !important;
+  }
+
+  .cabinet-screws,
+  .cabinet-vents {
+    display: none !important;
+  }
+
+  .fake-url-bar {
+    display: none !important;
+  }
+
+  .main-grid {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    min-height: 0;
+  }
+
+  .main-grid > aside {
+    width: 100% !important;
+    border-right: none !important;
+    border-top: 1px solid var(--bezel-border) !important;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    overflow-y: visible !important;
+  }
+
+  .sidebar-nav {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 4px 8px !important;
+    gap: 4px !important;
+  }
+
+  .sidebar-nav button {
+    width: auto !important;
+    flex: 0 0 auto !important;
+    padding: 8px 12px !important;
+    border-left: none !important;
+    border-bottom: 2px solid transparent !important;
+  }
+
+  .sidebar-nav button[aria-current="page"] {
+    border-bottom: 2px solid var(--blue) !important;
+  }
+
+  .console-screen {
+    padding: 16px 12px !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .profile-container {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    gap: 16px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DELETE DEFAULT VITE STYLES (clean slate)
+   ═══════════════════════════════════════════════════════════ */
+#root {
+  width: 100%;
+  min-height: 100vh;
+}

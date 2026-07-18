@@ -1,0 +1,179 @@
+import { useState } from 'react';
+import { useBeeper } from '../../hooks/useBeeper';
+
+/**
+ * ResumeSection — "Reward.pdf" cartridge slot (§4.7).
+ * Visual cartridge-slot metaphor with "INSERT COIN TO DOWNLOAD" button.
+ */
+export default function ResumeSection() {
+  const [downloaded, setDownloaded] = useState(false);
+  const [inserting, setInserting] = useState(false);
+  const { playCoin } = useBeeper();
+
+  const handleDownload = () => {
+    playCoin();
+    setInserting(true);
+
+    // Simulate cartridge insertion animation
+    setTimeout(() => {
+      setInserting(false);
+      setDownloaded(true);
+
+      // Trigger actual download
+      const link = document.createElement('a');
+      link.href = '/resume.pdf';
+      link.download = 'resume.pdf';
+      link.click();
+
+      // Reset after 3 seconds
+      setTimeout(() => setDownloaded(false), 3000);
+    }, 800);
+  };
+
+  return (
+    <div className="section-content">
+      <h2 className="section-title">
+        &gt; CLAIM YOUR REWARD_
+      </h2>
+
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 24,
+        padding: '24px 0',
+      }}>
+        {/* Cartridge Slot Visual */}
+        <div style={{
+          width: '100%',
+          maxWidth: 400,
+          position: 'relative',
+        }}>
+          {/* Slot machine frame */}
+          <div style={{
+            border: '2px solid var(--blue)',
+            boxShadow: '0 0 20px var(--blue-glow), inset 0 0 20px var(--blue-glow)',
+            padding: 24,
+            textAlign: 'center',
+            background: 'rgba(0,163,255,0.03)',
+            position: 'relative',
+          }}>
+            {/* Cartridge label */}
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.55rem',
+              color: 'var(--slate)',
+              letterSpacing: '0.15em',
+              marginBottom: 16,
+            }}>
+              CARTRIDGE SLOT A-01
+            </div>
+
+            {/* Cartridge visual */}
+            <div style={{
+              width: 120,
+              height: 80,
+              margin: '0 auto 20px',
+              border: '2px solid var(--yellow)',
+              background: 'rgba(255,214,0,0.05)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              transform: inserting ? 'translateY(20px)' : 'translateY(0)',
+              transition: 'transform 400ms steps(6)',
+              boxShadow: inserting ? '0 0 30px var(--yellow-glow)' : '0 0 10px var(--yellow-glow)',
+            }}>
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.5rem',
+                color: 'var(--yellow)',
+                letterSpacing: '0.1em',
+              }}>
+                RESUME
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.45rem',
+                color: 'var(--slate)',
+                letterSpacing: '0.08em',
+                marginTop: 4,
+              }}>
+                .PDF
+              </span>
+              {/* Cartridge notch */}
+              <div style={{
+                position: 'absolute',
+                bottom: -2,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 40,
+                height: 6,
+                background: 'var(--bezel)',
+                borderTop: '2px solid var(--yellow)',
+              }} />
+            </div>
+
+            {/* Slot opening */}
+            <div style={{
+              width: '80%',
+              height: 8,
+              margin: '0 auto 20px',
+              background: 'var(--bg)',
+              border: '1px solid var(--bezel-border)',
+              boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.5)',
+            }} />
+
+            {/* Download button */}
+            <button
+              className={`arcade-btn ${downloaded ? 'arcade-btn--secondary' : 'arcade-btn--magenta'}`}
+              onClick={handleDownload}
+              disabled={inserting}
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                opacity: inserting ? 0.7 : 1,
+              }}
+            >
+              {downloaded
+                ? '✓ REWARD CLAIMED'
+                : inserting
+                  ? 'INSERTING...'
+                  : '🪙 INSERT COIN TO DOWNLOAD'}
+            </button>
+          </div>
+
+          {/* Side labels */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: -40,
+            transform: 'rotate(-90deg) translateX(-50%)',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.45rem',
+            color: 'var(--bezel-border)',
+            letterSpacing: '0.2em',
+            whiteSpace: 'nowrap',
+          }} aria-hidden="true">
+            REWARD STATION
+          </div>
+        </div>
+
+        {/* File info */}
+        <div style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '0.65rem',
+          color: 'var(--slate)',
+          textAlign: 'center',
+          lineHeight: 1.6,
+        }}>
+          <div>📄 RESUME.PDF — Full professional resume</div>
+          <div style={{ marginTop: 4, fontSize: '0.55rem' }}>
+            Format: PDF · Updated: 2024 · Printable
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
