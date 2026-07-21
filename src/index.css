@@ -297,7 +297,9 @@ label, select, [tabindex]:not([tabindex="-1"]) {
   .sidebar-nav,
   .fake-url-bar,
   .toast-layer,
-  .high-score-counter {
+  .high-score-counter,
+  .github-header-btn,
+  .sidebar-social-links {
     display: none !important;
   }
 
@@ -433,6 +435,10 @@ label, select, [tabindex]:not([tabindex="-1"]) {
     border-bottom: 2px solid var(--blue) !important;
   }
 
+  .sidebar-social-links {
+    display: none !important;
+  }
+
   .console-screen {
     padding: 16px 12px !important;
   }
@@ -444,6 +450,20 @@ label, select, [tabindex]:not([tabindex="-1"]) {
     justify-items: center;
     gap: 16px !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR SOCIAL LINKS — Hover Effects
+   ═══════════════════════════════════════════════════════════ */
+
+.sidebar-social-link:hover {
+  color: var(--yellow) !important;
+  text-shadow: 0 0 10px var(--yellow-glow);
+}
+
+.sidebar-social-link:hover .sidebar-social-glyph {
+  color: var(--yellow);
+  transform: translateX(2px);
 }
 
 /* ═══════════════════════════════════════════════════════════

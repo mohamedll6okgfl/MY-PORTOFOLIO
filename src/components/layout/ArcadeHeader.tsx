@@ -1,16 +1,18 @@
-import { PLAYER } from '../../data/content';
+import { PLAYER, SOCIAL_LINKS } from '../../data/content';
 import HighScoreCounter from '../shared/HighScoreCounter';
 import ModeToggle from './ModeToggle';
 import MuteToggle from './MuteToggle';
 import { useAppStore } from '../../store/appStore';
+import { useBeeper } from '../../hooks/useBeeper';
 
 /**
  * ArcadeHeader — Top bar inside the cabinet bezel (§4.1).
- * Left: PlayerBadge | Center: FakeUrlBar | Right: HiScore + Toggles
+ * Left: PlayerBadge | Center: FakeUrlBar | Right: HiScore + GitHub + Toggles
  * Sticky on mobile.
  */
 export default function ArcadeHeader() {
   const debugMode = useAppStore((s) => s.debugMode);
+  const { playSelect } = useBeeper();
 
   return (
     <header
@@ -121,7 +123,7 @@ export default function ArcadeHeader() {
         WWW.DEVELOPER.COM/{PLAYER.name.replace(/\s+/g, '-').toLowerCase()}
       </div>
 
-      {/* Right — HiScore + Toggles */}
+      {/* Right — HiScore + GitHub + Toggles */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -130,6 +132,45 @@ export default function ArcadeHeader() {
       }}>
         <HighScoreCounter />
         <div style={{ width: 1, height: 24, background: 'var(--bezel-border)' }} />
+
+        {/* GitHub Quick-Action Button */}
+        <a
+          id="header-github-link"
+          href={SOCIAL_LINKS.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => playSelect()}
+          className="github-header-btn"
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.6rem',
+            padding: '6px 12px',
+            background: 'transparent',
+            color: '#00E5FF',
+            border: '1px solid #00E5FF',
+            letterSpacing: '0.05em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            whiteSpace: 'nowrap',
+            textDecoration: 'none',
+            boxShadow: '0 0 8px rgba(0, 229, 255, 0.3), inset 0 0 8px rgba(0, 229, 255, 0.1)',
+            transition: 'box-shadow 0.15s, background 0.15s, color 0.15s',
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget;
+            el.style.boxShadow = '0 0 14px rgba(0, 229, 255, 0.6), 0 0 28px rgba(0, 229, 255, 0.3), inset 0 0 14px rgba(0, 229, 255, 0.15)';
+            el.style.background = 'rgba(0, 229, 255, 0.1)';
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget;
+            el.style.boxShadow = '0 0 8px rgba(0, 229, 255, 0.3), inset 0 0 8px rgba(0, 229, 255, 0.1)';
+            el.style.background = 'transparent';
+          }}
+        >
+          🐙 GITHUB
+        </a>
+
         <ModeToggle />
         <MuteToggle />
       </div>

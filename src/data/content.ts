@@ -129,3 +129,9 @@ export const NAV_ITEMS = [
   { id: 'resume' as const, label: 'REWARD.PDF', icon: '📄' },
   { id: 'contact' as const, label: 'MULTIPLAYER', icon: '🌐' },
 ] as const;
+
+// ── Social Links (Single Source of Truth) ──
+export const SOCIAL_LINKS = {
+  github: 'https://github.com/mohamedll6okgfl',
+  linkedin: 'https://www.linkedin.com/in/mohamed-essam-abdelhaliem-ba4b14356',
+};
