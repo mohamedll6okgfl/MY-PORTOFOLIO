@@ -3,72 +3,60 @@ import { useBeeper } from '../../hooks/useBeeper';
 
 /**
  * ContactSection — "Multiplayer" terminal (§4.8).
- * "ENTER INITIALS" / high-score submission framing.
- * Submit = "SUBMIT SCORE", success = "SCORE SUBMITTED".
+ * Real email sending via Web3Forms API.
+ * Button: "🎮 PLAY CO-OP", success/error arcade feedback states.
  */
+
+/** Replace with your Web3Forms access key from https://web3forms.com */
+const WEB3FORMS_ACCESS_KEY = '45f08b93-ad0e-492f-9ca8-080802af7f6b';
+
 export default function ContactSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const { playCoin, playSelect } = useBeeper();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message) return;
 
     playSelect();
-    setSubmitting(true);
+    setStatus('submitting');
 
-    // Mock submission (swap for real backend later)
-    setTimeout(() => {
-      playCoin();
-      setSubmitting(false);
-      setSubmitted(true);
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `🎮 New CO-OP Request from Portfolio [Player: ${name}]`,
+          from_name: name,
+          reply_to: email,
+          message: message,
+        }),
+      });
 
-      // Reset after 4 seconds
-      setTimeout(() => {
-        setSubmitted(false);
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        playCoin();
+        setStatus('success');
         setName('');
         setEmail('');
         setMessage('');
-      }, 4000);
-    }, 1200);
-  };
 
-  if (submitted) {
-    return (
-      <div className="section-content" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: 300,
-        textAlign: 'center',
-        gap: 16,
-      }}>
-        <div style={{ fontSize: '3rem' }}>🏆</div>
-        <div style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '1rem',
-          color: 'var(--yellow)',
-          textShadow: '0 0 20px var(--yellow-glow)',
-          letterSpacing: '0.15em',
-        }}>
-          SCORE SUBMITTED!
-        </div>
-        <div style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.7rem',
-          color: 'var(--slate)',
-          maxWidth: 300,
-        }}>
-          Your message has been received. Player 2 will respond soon.
-        </div>
-      </div>
-    );
-  }
+        // Reset status after 5 seconds
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
 
   return (
     <div className="section-content">
@@ -129,6 +117,7 @@ export default function ContactSection() {
               onChange={setName}
               type="text"
               required
+              disabled={status === 'submitting'}
             />
             <TerminalInput
               label="COMM CHANNEL"
@@ -137,6 +126,7 @@ export default function ContactSection() {
               onChange={setEmail}
               type="email"
               required
+              disabled={status === 'submitting'}
             />
             <TerminalTextarea
               label="TRANSMISSION"
@@ -144,21 +134,60 @@ export default function ContactSection() {
               value={message}
               onChange={setMessage}
               required
+              disabled={status === 'submitting'}
             />
 
             <button
               type="submit"
               className="arcade-btn arcade-btn--magenta"
-              disabled={submitting || !name || !email || !message}
+              disabled={status === 'submitting' || !name || !email || !message}
               style={{
                 width: '100%',
                 justifyContent: 'center',
                 marginTop: 16,
-                opacity: submitting ? 0.7 : 1,
+                opacity: status === 'submitting' ? 0.7 : 1,
               }}
             >
-              {submitting ? 'TRANSMITTING...' : '🎯 SUBMIT SCORE'}
+              {status === 'submitting' ? '📡 TRANSMITTING...' : '🎮 PLAY CO-OP'}
             </button>
+
+            {/* Success feedback */}
+            {status === 'success' && (
+              <div style={{
+                marginTop: 16,
+                padding: '12px 16px',
+                border: '1px solid #00ff88',
+                background: 'rgba(0,255,136,0.06)',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.6rem',
+                color: '#00ff88',
+                letterSpacing: '0.08em',
+                textAlign: 'center',
+                textShadow: '0 0 12px rgba(0,255,136,0.5)',
+                animation: 'flicker 0.15s 3',
+              }}>
+                ✔ TRANSMISSION RECEIVED! PLAYER 2 HAS JOINED THE LOBBY.
+              </div>
+            )}
+
+            {/* Error feedback */}
+            {status === 'error' && (
+              <div style={{
+                marginTop: 16,
+                padding: '12px 16px',
+                border: '1px solid #ff3366',
+                background: 'rgba(255,51,102,0.06)',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.6rem',
+                color: '#ff3366',
+                letterSpacing: '0.08em',
+                textAlign: 'center',
+                textShadow: '0 0 12px rgba(255,51,102,0.5)',
+                animation: 'flicker 0.15s 3',
+              }}>
+                ✖ TRANSMISSION FAILED! SIGNAL LOST. PLEASE RETRY.
+              </div>
+            )}
           </form>
         </div>
       </div>
@@ -167,7 +196,7 @@ export default function ContactSection() {
 }
 
 function TerminalInput({
-  label, placeholder, value, onChange, type = 'text', required = false,
+  label, placeholder, value, onChange, type = 'text', required = false, disabled = false,
 }: {
   label: string;
   placeholder: string;
@@ -175,6 +204,7 @@ function TerminalInput({
   onChange: (v: string) => void;
   type?: string;
   required?: boolean;
+  disabled?: boolean;
 }) {
   const inputId = `contact-${label.toLowerCase().replace(/\s+/g, '-')}`;
   return (
@@ -199,6 +229,7 @@ function TerminalInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
+        disabled={disabled}
         style={{
           width: '100%',
           padding: '10px 12px',
@@ -208,6 +239,8 @@ function TerminalInput({
           background: 'var(--input-bg)',
           border: '1px solid var(--bezel-border)',
           outline: 'none',
+          opacity: disabled ? 0.5 : 1,
+          cursor: disabled ? 'not-allowed' : 'text',
         }}
       />
     </div>
@@ -215,13 +248,14 @@ function TerminalInput({
 }
 
 function TerminalTextarea({
-  label, placeholder, value, onChange, required = false,
+  label, placeholder, value, onChange, required = false, disabled = false,
 }: {
   label: string;
   placeholder: string;
   value: string;
   onChange: (v: string) => void;
   required?: boolean;
+  disabled?: boolean;
 }) {
   const inputId = `contact-${label.toLowerCase().replace(/\s+/g, '-')}`;
   return (
@@ -245,6 +279,7 @@ function TerminalTextarea({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
+        disabled={disabled}
         rows={4}
         style={{
           width: '100%',
@@ -256,6 +291,8 @@ function TerminalTextarea({
           border: '1px solid var(--bezel-border)',
           outline: 'none',
           resize: 'vertical',
+          opacity: disabled ? 0.5 : 1,
+          cursor: disabled ? 'not-allowed' : 'text',
         }}
       />
     </div>

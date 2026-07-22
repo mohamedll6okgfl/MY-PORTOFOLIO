@@ -184,6 +184,12 @@ label, select, [tabindex]:not([tabindex="-1"]) {
   100% { opacity: 1; }
 }
 
+/* Quick notification flicker */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 /* ═══════════════════════════════════════════════════════════
    BUTTON PRESS PHYSICS (§5 — Physical sink)
    ═══════════════════════════════════════════════════════════ */
