@@ -3,27 +3,25 @@ import { useBeeper } from '../../hooks/useBeeper';
 
 /**
  * ResumeSection — "Reward.pdf" cartridge slot (§4.7).
- * Visual cartridge-slot metaphor with "INSERT COIN TO DOWNLOAD" button.
+ * Visual cartridge-slot metaphor with "INSERT COIN FOR RESUME" button.
+ * Opens the PDF in a new browser tab instead of triggering a download.
  */
 export default function ResumeSection() {
   const [downloaded, setDownloaded] = useState(false);
   const [inserting, setInserting] = useState(false);
   const { playCoin } = useBeeper();
 
-  const handleDownload = () => {
+  const handleClaim = () => {
     playCoin();
     setInserting(true);
 
-    // Simulate cartridge insertion animation
+    // Simulate cartridge insertion animation, then open PDF in new tab
     setTimeout(() => {
       setInserting(false);
       setDownloaded(true);
 
-      // Trigger actual download
-      const link = document.createElement('a');
-      link.href = '/resume.pdf';
-      link.download = 'resume.pdf';
-      link.click();
+      // Open resume in a new browser tab
+      window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
 
       // Reset after 3 seconds
       setTimeout(() => setDownloaded(false), 3000);
@@ -125,10 +123,10 @@ export default function ResumeSection() {
               boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.5)',
             }} />
 
-            {/* Download button */}
+            {/* Open resume in new tab */}
             <button
               className={`arcade-btn ${downloaded ? 'arcade-btn--secondary' : 'arcade-btn--magenta'}`}
-              onClick={handleDownload}
+              onClick={handleClaim}
               disabled={inserting}
               style={{
                 width: '100%',
@@ -140,7 +138,7 @@ export default function ResumeSection() {
                 ? '✓ REWARD CLAIMED'
                 : inserting
                   ? 'INSERTING...'
-                  : '🪙 INSERT COIN TO DOWNLOAD'}
+                  : '🪙 INSERT COIN FOR RESUME'}
             </button>
           </div>
 
@@ -170,7 +168,7 @@ export default function ResumeSection() {
         }}>
           <div>📄 RESUME.PDF — Full professional resume</div>
           <div style={{ marginTop: 4, fontSize: '0.55rem' }}>
-            Format: PDF · Updated: 2024 · Printable
+            Format: PDF · Updated: 2026 · Online Preview & Printable
           </div>
         </div>
       </div>
