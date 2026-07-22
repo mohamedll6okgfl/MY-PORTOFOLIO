@@ -65,7 +65,8 @@ export default function ContactSection() {
       </h2>
 
       <div style={{
-        maxWidth: 500,
+        width: '100%',
+        maxWidth: 520,
         margin: '0 auto',
       }}>
         {/* Terminal frame */}

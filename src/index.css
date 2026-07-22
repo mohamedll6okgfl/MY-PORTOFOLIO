@@ -194,6 +194,14 @@ label, select, [tabindex]:not([tabindex="-1"]) {
    BUTTON PRESS PHYSICS (§5 — Physical sink)
    ═══════════════════════════════════════════════════════════ */
 
+.section-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
 .arcade-btn {
   position: relative;
   display: inline-flex;
