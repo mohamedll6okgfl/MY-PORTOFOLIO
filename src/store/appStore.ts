@@ -7,11 +7,15 @@ interface AppState {
   section: Section;
   mode: Mode;
   muted: boolean;
+  crtEnabled: boolean;
+  konamiActive: boolean;
   visitedSections: Set<Section>;
   debugMode: boolean;
   setSection: (s: Section) => void;
   toggleMode: () => void;
   toggleMute: () => void;
+  toggleCRT: () => void;
+  activateKonami: () => void;
   markVisited: (s: Section) => void;
   enableDebugMode: () => void;
 }
@@ -26,16 +30,29 @@ const getStoredMode = (): Mode => {
 
 const getStoredMuted = (): boolean => {
   try {
-    const stored = localStorage.getItem('arcade_muted');
+    const stored = localStorage.getItem('arcade_sound_muted');
     if (stored !== null) return stored === 'true';
+    // Migrate from old key
+    const oldStored = localStorage.getItem('arcade_muted');
+    if (oldStored !== null) return oldStored === 'true';
   } catch {}
   return true; // default muted per spec §6
+};
+
+const getStoredCRT = (): boolean => {
+  try {
+    const stored = localStorage.getItem('arcade_crt_enabled');
+    if (stored !== null) return stored === 'true';
+  } catch {}
+  return true; // CRT on by default in arcade mode
 };
 
 export const useAppStore = create<AppState>((set) => ({
   section: 'profile',
   mode: getStoredMode(),
   muted: getStoredMuted(),
+  crtEnabled: getStoredCRT(),
+  konamiActive: false,
   visitedSections: new Set<Section>(['profile']),
   debugMode: false,
 
@@ -56,8 +73,24 @@ export const useAppStore = create<AppState>((set) => ({
   toggleMute: () =>
     set((state) => {
       const next = !state.muted;
-      try { localStorage.setItem('arcade_muted', String(next)); } catch {}
+      try { localStorage.setItem('arcade_sound_muted', String(next)); } catch {}
       return { muted: next };
+    }),
+
+  toggleCRT: () =>
+    set((state) => {
+      const next = !state.crtEnabled;
+      try { localStorage.setItem('arcade_crt_enabled', String(next)); } catch {}
+      return { crtEnabled: next };
+    }),
+
+  activateKonami: () =>
+    set(() => {
+      // Auto-deactivate after 10 seconds
+      setTimeout(() => {
+        useAppStore.setState({ konamiActive: false });
+      }, 10000);
+      return { konamiActive: true, debugMode: true };
     }),
 
   markVisited: (s: Section) =>

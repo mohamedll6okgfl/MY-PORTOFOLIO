@@ -90,5 +90,29 @@ export function useBeeper() {
     }
   }, [muted, getContext]);
 
-  return { playHover, playSelect, playCoin };
+  /** Level-up jingle — ascending 4-note arpeggio for Konami code */
+  const playLevelUp = useCallback(() => {
+    if (muted) return;
+    try {
+      const ctx = getContext();
+      const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        const start = ctx.currentTime + i * 0.12;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.1, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + 0.2);
+      });
+    } catch {
+      // Silently fail
+    }
+  }, [muted, getContext]);
+
+  return { playHover, playSelect, playCoin, playLevelUp };
 }

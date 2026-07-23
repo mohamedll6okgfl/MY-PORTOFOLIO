@@ -8,21 +8,20 @@ interface StatBarProps {
 }
 
 /**
- * StatBar — Reusable fill bar with arcade "health/mana bar" aesthetic (§4.4, §4.5).
- * Animates fill with stepped timing on mount.
+ * StatBar — Reusable fill bar with arcade "health/mana bar" aesthetic.
+ * Animates fill smoothly from 0% to target value over 1.2 seconds (ease-out).
+ * Displays retro pixel skill level badges (NOVICE, EXPERT, MASTER).
  */
 export default function StatBar({ label, value, color, delay = 0 }: StatBarProps) {
   const [width, setWidth] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (hasAnimated.current) return;
-
+    // Reset to 0 then animate to target value on mount/nav
+    setWidth(0);
     const timer = setTimeout(() => {
-      hasAnimated.current = true;
       setWidth(value);
-    }, delay + 100);
+    }, delay + 50);
 
     return () => clearTimeout(timer);
   }, [value, delay]);
@@ -30,23 +29,48 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
   const barColor = color || 'var(--blue)';
   const glowColor = color === 'var(--magenta)' ? 'var(--magenta-glow)' : 'var(--blue-glow)';
 
+  // Retro skill tier badge classification
+  const getBadge = (val: number) => {
+    if (val >= 85) return { text: 'MASTER', color: 'var(--yellow)', border: 'var(--yellow)' };
+    if (val >= 75) return { text: 'EXPERT', color: 'var(--blue)', border: 'var(--blue)' };
+    return { text: 'NOVICE', color: 'var(--slate)', border: 'var(--bezel-border)' };
+  };
+
+  const badge = getBadge(value);
+
   return (
     <div ref={ref} style={{ marginBottom: 12 }}>
-      {/* Label + value row */}
+      {/* Label + Badge + value row */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'baseline',
+        alignItems: 'center',
         marginBottom: 4,
       }}>
-        <span className="font-body text-xs font-semibold text-gray-300 tracking-wider">
-          {label}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span className="font-body text-xs font-semibold text-gray-300 tracking-wider">
+            {label}
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.45rem',
+              color: badge.color,
+              border: `1px solid ${badge.border}`,
+              padding: '1px 5px',
+              letterSpacing: '0.08em',
+              background: 'rgba(0,0,0,0.3)',
+              borderRadius: 2,
+            }}
+          >
+            {badge.text}
+          </span>
+        </div>
         <span
           className="font-body text-sm font-bold"
           style={{ color: barColor }}
         >
-          {value}
+          {value}%
         </span>
       </div>
 
@@ -64,7 +88,7 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
           width: `${width}%`,
           background: `linear-gradient(90deg, ${barColor}, ${barColor}dd)`,
           boxShadow: `0 0 8px ${glowColor}`,
-          transition: `width 800ms steps(12)`,
+          transition: `width 1.2s cubic-bezier(0, 0, 0.2, 1)`,
           position: 'relative',
         }}>
           {/* Pixel segments inside fill bar */}

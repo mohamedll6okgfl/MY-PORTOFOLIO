@@ -5,6 +5,9 @@ import CabinetBezel from '../components/layout/CabinetBezel';
 import ArcadeHeader from '../components/layout/ArcadeHeader';
 import SidebarNav from '../components/layout/SidebarNav';
 import ToastLayer from '../components/shared/ToastLayer';
+import CRTOverlay from '../components/shared/CRTOverlay';
+import KonamiOverlay from '../components/shared/KonamiOverlay';
+import { useBeeper } from '../hooks/useBeeper';
 
 // Code-split sections (§10 — performance budget)
 const ProfileSection = lazy(() => import('../components/sections/ProfileSection'));
@@ -78,7 +81,8 @@ export default function App() {
     markVisited(section);
   }, [section, markVisited]);
 
-  const enableDebugMode = useAppStore((s) => s.enableDebugMode);
+  const activateKonami = useAppStore((s) => s.activateKonami);
+  const { playLevelUp } = useBeeper();
 
   // Konami code easter egg (§7.8)
   useEffect(() => {
@@ -90,16 +94,23 @@ export default function App() {
     let pos = 0;
 
     const handler = (e: KeyboardEvent) => {
-      if (e.code === code[pos]) {
+      const currentExpected = code[pos];
+      const matchesCode = e.code === currentExpected;
+      const matchesKey =
+        (pos === 8 && (e.key === 'b' || e.key === 'B')) ||
+        (pos === 9 && (e.key === 'a' || e.key === 'A'));
+
+      if (matchesCode || matchesKey) {
         pos++;
         if (pos === code.length) {
           pos = 0;
-          enableDebugMode();
-          // Screen flicker effect
-          document.body.style.animation = 'screen-flicker 0.6s steps(10)';
+          activateKonami();
+          playLevelUp();
+          // 10s border neon cycle effect
+          document.body.classList.add('konami-overdrive');
           setTimeout(() => {
-            document.body.style.animation = '';
-          }, 600);
+            document.body.classList.remove('konami-overdrive');
+          }, 10000);
         }
       } else {
         pos = 0;
@@ -108,7 +119,7 @@ export default function App() {
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [enableDebugMode]);
+  }, [activateKonami, playLevelUp]);
 
   const renderSection = () => {
     switch (section) {
@@ -171,6 +182,8 @@ export default function App() {
         </div>
       </CabinetBezel>
 
+      <CRTOverlay />
+      <KonamiOverlay />
       <ToastLayer />
     </>
   );
