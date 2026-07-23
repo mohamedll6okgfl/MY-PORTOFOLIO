@@ -8,8 +8,9 @@ interface StatBarProps {
 }
 
 /**
- * StatBar — Reusable fill bar with arcade "health/mana bar" aesthetic.
- * Animates fill smoothly from 0% to target value over 1.2 seconds (ease-out).
+ * StatBar — Reusable fill bar with high-contrast Retro Arcade styling.
+ * Track: bg-slate-900 border border-slate-700/80 shadow-inner
+ * Fill: Vibrant neon color with glowing box-shadow and pixel segment accents.
  * Displays retro pixel skill level badges (NOVICE, EXPERT, MASTER).
  */
 export default function StatBar({ label, value, color, delay = 0 }: StatBarProps) {
@@ -27,7 +28,6 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
   }, [value, delay]);
 
   const barColor = color || 'var(--blue)';
-  const glowColor = color === 'var(--magenta)' ? 'var(--magenta-glow)' : 'var(--blue-glow)';
 
   // Retro skill tier badge classification
   const getBadge = (val: number) => {
@@ -39,16 +39,11 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
   const badge = getBadge(value);
 
   return (
-    <div ref={ref} style={{ marginBottom: 12 }}>
+    <div ref={ref} className="mb-3.5 w-full">
       {/* Label + Badge + value row */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 4,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span className="font-body text-xs font-semibold text-gray-300 tracking-wider">
+      <div className="flex justify-between items-center mb-1.5">
+        <div className="flex items-center gap-2">
+          <span className="font-body text-xs font-semibold text-gray-200 tracking-wider">
             {label}
           </span>
           <span
@@ -59,7 +54,7 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
               border: `1px solid ${badge.border}`,
               padding: '1px 5px',
               letterSpacing: '0.08em',
-              background: 'rgba(0,0,0,0.3)',
+              background: 'rgba(0,0,0,0.4)',
               borderRadius: 2,
             }}
           >
@@ -74,29 +69,24 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
         </span>
       </div>
 
-      {/* Bar track */}
-      <div style={{
-        height: 10,
-        background: 'rgba(0,163,255,0.06)',
-        border: '1px solid var(--bezel-border)',
-        overflow: 'hidden',
-        position: 'relative',
-      }}>
-        {/* Bar fill */}
-        <div style={{
-          height: '100%',
-          width: `${width}%`,
-          background: `linear-gradient(90deg, ${barColor}, ${barColor}dd)`,
-          boxShadow: `0 0 8px ${glowColor}`,
-          transition: `width 1.2s cubic-bezier(0, 0, 0.2, 1)`,
-          position: 'relative',
-        }}>
-          {/* Pixel segments inside fill bar */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'repeating-linear-gradient(to right, transparent 0px, transparent 6px, rgba(0,0,0,0.15) 6px, rgba(0,0,0,0.15) 8px)',
-          }} />
+      {/* CONTAINER (Track) */}
+      <div className="w-full h-3.5 bg-slate-900 border border-slate-700/80 rounded-sm overflow-hidden p-[1px] relative shadow-inner">
+        {/* FILLED PROGRESS BAR */}
+        <div
+          className="h-full rounded-sm relative transition-all duration-1000 ease-out"
+          style={{
+            width: `${width}%`,
+            backgroundColor: barColor,
+            boxShadow: `0 0 12px ${barColor}`,
+          }}
+        >
+          {/* Pixel segments overlay inside fill bar */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'repeating-linear-gradient(to right, transparent 0px, transparent 6px, rgba(0,0,0,0.2) 6px, rgba(0,0,0,0.2) 8px)',
+            }}
+          />
         </div>
       </div>
     </div>
