@@ -159,15 +159,9 @@ export default function ResumeSection() {
         </div>
 
         {/* File info */}
-        <div style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.65rem',
-          color: 'var(--slate)',
-          textAlign: 'center',
-          lineHeight: 1.6,
-        }}>
+        <div className="font-body text-sm text-slate-300 text-center leading-relaxed">
           <div>📄 RESUME.PDF — Full professional resume</div>
-          <div style={{ marginTop: 4, fontSize: '0.55rem' }}>
+          <div className="mt-1 text-xs text-slate-400">
             Format: PDF · Updated: 2026 · Online Preview & Printable
           </div>
         </div>

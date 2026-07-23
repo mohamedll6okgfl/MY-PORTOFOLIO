@@ -128,19 +128,10 @@ export default function ProfileSection() {
 function KeyValueRow({ label, value }: { label: string; value: string }) {
   return (
     <>
-      <span style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '0.6rem',
-        color: 'var(--blue)',
-        letterSpacing: '0.1em',
-      }}>
+      <span className="font-body text-xs font-semibold text-[var(--blue)] tracking-wider">
         {label}
       </span>
-      <span style={{
-        fontFamily: 'var(--font-body)',
-        fontSize: '0.75rem',
-        color: 'var(--white)',
-      }}>
+      <span className="font-body text-sm text-gray-200 leading-relaxed">
         {value}
       </span>
     </>

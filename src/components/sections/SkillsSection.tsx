@@ -59,13 +59,7 @@ export default function SkillsSection() {
                 }}>
                   {category}
                 </span>
-                <span style={{
-                  marginLeft: 'auto',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.5rem',
-                  color: 'var(--slate)',
-                  letterSpacing: '0.05em',
-                }}>
+                <span className="font-body text-xs text-slate-400 ml-auto tracking-wide">
                   {skills.length} ITEMS
                 </span>
               </div>

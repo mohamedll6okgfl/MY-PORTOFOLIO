@@ -21,8 +21,9 @@
   --card-bg: rgba(0, 163, 255, 0.04);
 
   /* ── Typography ── */
+  --font-pixel: 'Silkscreen', monospace;
   --font-display: 'Silkscreen', monospace;
-  --font-body: 'JetBrains Mono', monospace;
+  --font-body: 'Share Tech Mono', 'JetBrains Mono', monospace;
 
   /* ── Spacing (4px grid) ── */
   --space-1: 4px;

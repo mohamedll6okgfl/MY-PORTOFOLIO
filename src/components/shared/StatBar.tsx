@@ -39,20 +39,13 @@ export default function StatBar({ label, value, color, delay = 0 }: StatBarProps
         alignItems: 'baseline',
         marginBottom: 4,
       }}>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '0.6rem',
-          color: 'var(--slate)',
-          letterSpacing: '0.08em',
-        }}>
+        <span className="font-body text-xs font-semibold text-gray-300 tracking-wider">
           {label}
         </span>
-        <span style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.7rem',
-          color: barColor,
-          fontWeight: 700,
-        }}>
+        <span
+          className="font-body text-sm font-bold"
+          style={{ color: barColor }}
+        >
           {value}
         </span>
       </div>

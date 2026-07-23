@@ -212,14 +212,7 @@ function TerminalInput({
     <div style={{ marginBottom: 14 }}>
       <label
         htmlFor={inputId}
-        style={{
-          display: 'block',
-          fontFamily: 'var(--font-display)',
-          fontSize: '0.55rem',
-          color: 'var(--blue)',
-          letterSpacing: '0.12em',
-          marginBottom: 4,
-        }}
+        className="font-body text-xs font-semibold text-[var(--blue)] tracking-wider block mb-1"
       >
         {label}
       </label>
@@ -231,15 +224,8 @@ function TerminalInput({
         placeholder={placeholder}
         required={required}
         disabled={disabled}
+        className="font-body text-sm md:text-base text-gray-200 leading-relaxed w-full p-3 bg-[var(--input-bg)] border border-[var(--bezel-border)] outline-none"
         style={{
-          width: '100%',
-          padding: '10px 12px',
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.75rem',
-          color: 'var(--white)',
-          background: 'var(--input-bg)',
-          border: '1px solid var(--bezel-border)',
-          outline: 'none',
           opacity: disabled ? 0.5 : 1,
           cursor: disabled ? 'not-allowed' : 'text',
         }}
@@ -263,14 +249,7 @@ function TerminalTextarea({
     <div style={{ marginBottom: 14 }}>
       <label
         htmlFor={inputId}
-        style={{
-          display: 'block',
-          fontFamily: 'var(--font-display)',
-          fontSize: '0.55rem',
-          color: 'var(--blue)',
-          letterSpacing: '0.12em',
-          marginBottom: 4,
-        }}
+        className="font-body text-xs font-semibold text-[var(--blue)] tracking-wider block mb-1"
       >
         {label}
       </label>
@@ -282,16 +261,8 @@ function TerminalTextarea({
         required={required}
         disabled={disabled}
         rows={4}
+        className="font-body text-sm md:text-base text-gray-200 leading-relaxed w-full p-3 bg-[var(--input-bg)] border border-[var(--bezel-border)] outline-none resize-y"
         style={{
-          width: '100%',
-          padding: '10px 12px',
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.75rem',
-          color: 'var(--white)',
-          background: 'var(--input-bg)',
-          border: '1px solid var(--bezel-border)',
-          outline: 'none',
-          resize: 'vertical',
           opacity: disabled ? 0.5 : 1,
           cursor: disabled ? 'not-allowed' : 'text',
         }}

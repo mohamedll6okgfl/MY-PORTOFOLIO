@@ -80,13 +80,12 @@ export default function ProjectCartridge({ project }: ProjectCartridgeProps) {
         </h3>
 
         {/* Tagline */}
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.72rem',
-          color: 'var(--slate)',
-          lineHeight: 1.5,
-          margin: 0,
-        }}>
+        <p
+          className="font-body text-sm text-slate-300 leading-relaxed"
+          style={{
+            margin: 0,
+          }}
+        >
           {project.tagline}
         </p>
 
@@ -95,9 +94,8 @@ export default function ProjectCartridge({ project }: ProjectCartridgeProps) {
           {project.tech.map((t) => (
             <span
               key={t}
+              className="font-body text-xs"
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.5rem',
                 padding: '3px 8px',
                 color: 'var(--blue)',
                 border: '1px solid var(--bezel-border)',

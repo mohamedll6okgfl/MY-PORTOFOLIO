@@ -19,8 +19,9 @@
   --color-input-bg: var(--input-bg);
   --color-card-bg: var(--card-bg);
 
+  --font-pixel: 'Silkscreen', monospace;
   --font-display: 'Silkscreen', monospace;
-  --font-body: 'JetBrains Mono', monospace;
+  --font-body: 'Share Tech Mono', 'JetBrains Mono', monospace;
 }
 
 /* ── Base Reset ── */
