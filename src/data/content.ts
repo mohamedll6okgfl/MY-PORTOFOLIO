@@ -131,4 +131,5 @@ export const NAV_ITEMS = [
 export const SOCIAL_LINKS = {
   github: 'https://github.com/mohamedll6okgfl',
   linkedin: 'https://www.linkedin.com/in/mohamed-essam-abdelhaliem-ba4b14356',
+  whatsapp: "https://wa.me/201116997544?text=Hello%20Mohamed!%20I%20saw%20your%20Arcade%20Portfolio%20and%20I'd%20like%20to%20discuss%20a%20potential%20opportunity.",
 };
