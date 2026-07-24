@@ -491,3 +491,68 @@ label, select, [tabindex]:not([tabindex="-1"]) {
   width: 100%;
   min-height: 100vh;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   READER MODE (LIGHT THEME) HIGH-CONTRAST OVERRIDES (WCAG AAA)
+   ═══════════════════════════════════════════════════════════ */
+[data-mode="reader"] {
+  color: #0f172a;
+}
+
+[data-mode="reader"] .text-gray-200,
+[data-mode="reader"] .text-gray-300 {
+  color: #0f172a !important;
+}
+
+[data-mode="reader"] .text-gray-400,
+[data-mode="reader"] .text-slate-400 {
+  color: #475569 !important;
+}
+
+[data-mode="reader"] .bg-slate-900,
+[data-mode="reader"] .bg-slate-900\/90 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-mode="reader"] .border-slate-700,
+[data-mode="reader"] .border-slate-700\/80,
+[data-mode="reader"] .border-slate-700\/60 {
+  border-color: #cbd5e1 !important;
+}
+
+[data-mode="reader"] .bg-emerald-950\/60 {
+  background-color: #d1fae5 !important;
+  border-color: #059669 !important;
+  color: #047857 !important;
+  box-shadow: none !important;
+}
+
+[data-mode="reader"] .text-emerald-400 {
+  color: #047857 !important;
+}
+
+[data-mode="reader"] .bg-sky-950\/80 {
+  background-color: #e0f2fe !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+  box-shadow: none !important;
+}
+
+[data-mode="reader"] .text-\[\#38bdf8\] {
+  color: #0284c7 !important;
+  text-shadow: none !important;
+}
+
+[data-mode="reader"] .github-header-btn {
+  color: #0284c7 !important;
+  border-color: #0284c7 !important;
+  box-shadow: none !important;
+}
+
+[data-mode="reader"] .fake-url-bar {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+

@@ -55,26 +55,26 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   READER MODE — Pure black/white/gray palette
+   READER MODE — Pure light mode palette (WCAG AAA compliant)
    ═══════════════════════════════════════════════════════════ */
 
 [data-mode="reader"] {
-  --bg: #FFFFFF;
-  --bezel: #F5F5F5;
-  --blue: #333333;
-  --yellow: #555555;
-  --magenta: #666666;
-  --white: #111111;
-  --slate: #666666;
+  --bg: #F8FAFC;
+  --bezel: #FFFFFF;
+  --blue: #0284C7;
+  --yellow: #D97706;
+  --magenta: #DC2626;
+  --white: #0F172A;
+  --slate: #475569;
   --blue-glow: transparent;
   --yellow-glow: transparent;
   --magenta-glow: transparent;
-  --bezel-border: #E0E0E0;
-  --input-bg: #F0F0F0;
-  --card-bg: #FAFAFA;
-  --shadow-hard: 2px 2px 0 #CCCCCC;
-  --shadow-hard-yellow: 2px 2px 0 #CCCCCC;
-  --shadow-hard-magenta: 2px 2px 0 #CCCCCC;
+  --bezel-border: #CBD5E1;
+  --input-bg: #F1F5F9;
+  --card-bg: #FFFFFF;
+  --shadow-hard: 2px 2px 0 #CBD5E1;
+  --shadow-hard-yellow: 2px 2px 0 #CBD5E1;
+  --shadow-hard-magenta: 2px 2px 0 #CBD5E1;
   --shadow-neon: none;
   --font-display: 'JetBrains Mono', monospace;
 }

@@ -1,3 +1,4 @@
+import { Gamepad2 } from 'lucide-react';
 import { PLAYER, SOCIAL_LINKS } from '../../data/content';
 import HighScoreCounter from '../shared/HighScoreCounter';
 import ModeToggle from './ModeToggle';
@@ -32,55 +33,19 @@ export default function ArcadeHeader() {
         gap: 8,
       }}
     >
-      {/* Left — Player Badge */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 10,
-        minWidth: 0,
-      }}>
-        {/* Pixel avatar glyph */}
-        <div style={{
-          width: 32,
-          height: 32,
-          background: 'var(--blue)',
-          border: '2px solid var(--yellow)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '14px',
-          flexShrink: 0,
-        }}>
-          👾
+      {/* Left — Logo & Header Info */}
+      <div className="flex items-center gap-2.5 min-w-0">
+        {/* Gamepad Joystick Icon inside glowing neon frame */}
+        <div className="w-8 h-8 rounded bg-sky-950/80 border border-sky-400/60 flex items-center justify-center text-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.4)] shrink-0">
+          <Gamepad2 size={18} />
         </div>
-        <div style={{ minWidth: 0 }}>
-          <div style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.6rem',
-            color: 'var(--slate)',
-            letterSpacing: '0.1em',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}>
-            ARCADE NAVIGATOR
+        <div className="min-w-0">
+          <div className="font-pixel text-xs md:text-sm text-[#38bdf8] drop-shadow-[0_0_6px_#0284c7] tracking-wider truncate">
+            MOHAMED ESSAM
           </div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.65rem',
-              color: 'var(--yellow)',
-              textShadow: '0 0 10px var(--yellow-glow)',
-              letterSpacing: '0.08em',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}>
-              {PLAYER.name} EDITION
+          <div className="flex items-center gap-2">
+            <span className="font-body text-[10px] text-gray-400 tracking-wider truncate">
+              FRONT-END DEVELOPER // 2026
             </span>
             {debugMode && (
               <span style={{
@@ -169,7 +134,7 @@ export default function ArcadeHeader() {
             el.style.background = 'transparent';
           }}
         >
-          🐙 GITHUB
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> GITHUB
         </a>
 
         <ModeToggle />
