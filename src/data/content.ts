@@ -10,16 +10,13 @@ export type Player = {
   highScore: number;
 };
 
-export type Stat = {
-  label: string;
-  value: number; // 0–100
-};
-
-export type Skill = {
+export interface Skill {
   name: string;
-  level: number; // 0–100
-  category: string;
-};
+  rank: 'MASTER' | 'EXPERT' | 'NOVICE';
+  category: 'FRONTEND' | 'TOOLS' | 'CRAFT';
+  iconName: string;
+  isUnlocked: boolean;
+}
 
 export type Project = {
   title: string;
@@ -39,34 +36,34 @@ export const PLAYER: Player = {
   highScore: 128500,
 };
 
-// ── Core Attribute Bars (Profile Section) ──
-export const STATS: Stat[] = [
-  { label: 'HTML / CSS', value: 92 },
-  { label: 'JAVASCRIPT', value: 85 },
-  { label: 'REACT', value: 80 },
-  { label: 'TYPESCRIPT', value: 72 },
-  { label: 'UI / UX DESIGN', value: 78 },
+// ── Core Attribute Skill Items (Profile Section) ──
+export const STATS: Skill[] = [
+  { name: 'HTML / CSS', rank: 'MASTER', category: 'FRONTEND', iconName: 'Code2', isUnlocked: true },
+  { name: 'JAVASCRIPT', rank: 'MASTER', category: 'FRONTEND', iconName: 'FileCode2', isUnlocked: true },
+  { name: 'REACT', rank: 'EXPERT', category: 'FRONTEND', iconName: 'Atom', isUnlocked: true },
+  { name: 'TYPESCRIPT', rank: 'EXPERT', category: 'FRONTEND', iconName: 'FileJson', isUnlocked: true },
+  { name: 'UI / UX DESIGN', rank: 'EXPERT', category: 'CRAFT', iconName: 'Palette', isUnlocked: true },
 ];
 
 // ── Skills Inventory (Power-Ups Section) ──
 export const SKILLS: Skill[] = [
   // Frontend
-  { name: 'HTML5 & CSS3', level: 92, category: 'FRONTEND' },
-  { name: 'JavaScript (ES6+)', level: 85, category: 'FRONTEND' },
-  { name: 'React', level: 80, category: 'FRONTEND' },
-  { name: 'TypeScript', level: 72, category: 'FRONTEND' },
-  { name: 'Tailwind CSS', level: 85, category: 'FRONTEND' },
-  { name: 'Framer Motion', level: 70, category: 'FRONTEND' },
+  { name: 'HTML5 & CSS3', rank: 'MASTER', category: 'FRONTEND', iconName: 'Code2', isUnlocked: true },
+  { name: 'JavaScript (ES6+)', rank: 'MASTER', category: 'FRONTEND', iconName: 'FileCode2', isUnlocked: true },
+  { name: 'React', rank: 'EXPERT', category: 'FRONTEND', iconName: 'Atom', isUnlocked: true },
+  { name: 'TypeScript', rank: 'EXPERT', category: 'FRONTEND', iconName: 'FileJson', isUnlocked: true },
+  { name: 'Tailwind CSS', rank: 'MASTER', category: 'FRONTEND', iconName: 'Palette', isUnlocked: true },
+  { name: 'Framer Motion', rank: 'EXPERT', category: 'FRONTEND', iconName: 'Sparkles', isUnlocked: true },
   // Tools
-  { name: 'Git & GitHub', level: 82, category: 'TOOLS' },
-  { name: 'Vite / Webpack', level: 75, category: 'TOOLS' },
-  { name: 'Figma', level: 78, category: 'TOOLS' },
-  { name: 'VS Code', level: 90, category: 'TOOLS' },
+  { name: 'Git & GitHub', rank: 'EXPERT', category: 'TOOLS', iconName: 'GitBranch', isUnlocked: true },
+  { name: 'Vite / Webpack', rank: 'EXPERT', category: 'TOOLS', iconName: 'Zap', isUnlocked: true },
+  { name: 'Figma', rank: 'EXPERT', category: 'TOOLS', iconName: 'Layout', isUnlocked: true },
+  { name: 'VS Code', rank: 'MASTER', category: 'TOOLS', iconName: 'Terminal', isUnlocked: true },
   // Craft
-  { name: 'Responsive Design', level: 90, category: 'CRAFT' },
-  { name: 'CSS Animations', level: 85, category: 'CRAFT' },
-  { name: 'Performance Tuning', level: 72, category: 'CRAFT' },
-  { name: 'Accessibility (a11y)', level: 75, category: 'CRAFT' },
+  { name: 'Responsive Design', rank: 'MASTER', category: 'CRAFT', iconName: 'Layout', isUnlocked: true },
+  { name: 'CSS Animations', rank: 'MASTER', category: 'CRAFT', iconName: 'Sparkles', isUnlocked: true },
+  { name: 'Performance Tuning', rank: 'EXPERT', category: 'CRAFT', iconName: 'Gauge', isUnlocked: true },
+  { name: 'Accessibility (a11y)', rank: 'EXPERT', category: 'CRAFT', iconName: 'ShieldCheck', isUnlocked: true },
 ];
 
 // ── Project Cartridges (Levels Section) ──

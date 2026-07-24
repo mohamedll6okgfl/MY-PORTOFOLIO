@@ -98,26 +98,10 @@ label, select, [tabindex]:not([tabindex="-1"]) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CRT SCANLINE OVERLAY (Arcade Mode only)
+   CRT SCANLINE OVERLAY (Arcade Mode — ultra-subtle / disabled)
    ═══════════════════════════════════════════════════════════ */
 
 .crt-scanlines::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.12) 2px,
-    rgba(0, 0, 0, 0.12) 4px
-  );
-  mix-blend-mode: multiply;
-}
-
-[data-mode="reader"] .crt-scanlines::after {
   display: none;
 }
 

@@ -69,8 +69,7 @@ export default function SkillsSection() {
                 {skills.map((skill, i) => (
                   <StatBar
                     key={skill.name}
-                    label={skill.name.toUpperCase()}
-                    value={skill.level}
+                    skill={skill}
                     color={meta.color}
                     delay={i * 80}
                   />

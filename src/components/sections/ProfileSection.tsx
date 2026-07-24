@@ -113,9 +113,8 @@ export default function ProfileSection() {
           </div>
           {STATS.map((stat, i) => (
             <StatBar
-              key={stat.label}
-              label={stat.label}
-              value={stat.value}
+              key={stat.name}
+              skill={stat}
               delay={i * 100}
             />
           ))}

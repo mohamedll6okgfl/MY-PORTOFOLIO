@@ -1,9 +1,8 @@
 import { useAppStore } from '../../store/appStore';
 
 /**
- * CRTOverlay — Full-screen CRT scanline effect overlay.
- * Rendered when crtEnabled is true and mode is 'arcade'.
- * pointer-events: none so it doesn't block interaction.
+ * CRTOverlay — Full-screen subtle CRT scanline overlay.
+ * Ultra-low opacity so content remains 100% crisp and readable.
  */
 export default function CRTOverlay() {
   const crtEnabled = useAppStore((s) => s.crtEnabled);
@@ -19,15 +18,14 @@ export default function CRTOverlay() {
         inset: 0,
         zIndex: 9999,
         pointerEvents: 'none',
+        opacity: 0.03,
         background: `repeating-linear-gradient(
           to bottom,
           transparent,
           transparent 2px,
-          rgba(0, 0, 0, 0.12) 2px,
-          rgba(0, 0, 0, 0.12) 4px
+          rgba(0, 0, 0, 0.2) 2px,
+          rgba(0, 0, 0, 0.2) 4px
         )`,
-        mixBlendMode: 'multiply',
-        animation: 'crt-subtle-flicker 4s ease-in-out infinite',
       }}
     />
   );

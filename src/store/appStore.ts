@@ -44,7 +44,7 @@ const getStoredCRT = (): boolean => {
     const stored = localStorage.getItem('arcade_crt_enabled');
     if (stored !== null) return stored === 'true';
   } catch {}
-  return true; // CRT on by default in arcade mode
+  return false; // CRT off by default for crisp clarity
 };
 
 export const useAppStore = create<AppState>((set) => ({
