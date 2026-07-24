@@ -8,6 +8,7 @@ import ToastLayer from '../components/shared/ToastLayer';
 import CRTOverlay from '../components/shared/CRTOverlay';
 import KonamiOverlay from '../components/shared/KonamiOverlay';
 import { useBeeper } from '../hooks/useBeeper';
+import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 
 // Code-split sections (§10 — performance budget)
 const ProfileSection = lazy(() => import('../components/sections/ProfileSection'));
@@ -70,6 +71,9 @@ export default function App() {
   const section = useAppStore((s) => s.section);
   const mode = useAppStore((s) => s.mode);
   const markVisited = useAppStore((s) => s.markVisited);
+
+  // Enable global keyboard arrow / W/S and wheel navigation between sections
+  useKeyboardNavigation();
 
   // Sync data-mode attribute on <html> element
   useEffect(() => {
