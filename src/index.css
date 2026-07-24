@@ -97,13 +97,6 @@ label, select, [tabindex]:not([tabindex="-1"]) {
   cursor: pointer;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CRT SCANLINE OVERLAY (Arcade Mode — ultra-subtle / disabled)
-   ═══════════════════════════════════════════════════════════ */
-
-.crt-scanlines::after {
-  display: none;
-}
 
 /* ═══════════════════════════════════════════════════════════
    STEPPED TRANSITION UTILITIES
@@ -175,12 +168,6 @@ label, select, [tabindex]:not([tabindex="-1"]) {
   50% { opacity: 0.3; }
 }
 
-/* CRT Subtle Flicker */
-@keyframes crt-subtle-flicker {
-  0%, 100% { opacity: 0.95; }
-  50% { opacity: 0.85; }
-  80% { opacity: 0.92; }
-}
 
 /* Konami Border Cycle */
 @keyframes konami-border-cycle {
@@ -306,7 +293,6 @@ label, select, [tabindex]:not([tabindex="-1"]) {
 
 @media print {
   /* Strip all arcade chrome */
-  .crt-scanlines::after,
   .cabinet-screws,
   .cabinet-vents,
   .scanline-overlay,
@@ -391,9 +377,7 @@ label, select, [tabindex]:not([tabindex="-1"]) {
     filter: none;
   }
 
-  .crt-scanlines::after {
-    display: none;
-  }
+
 }
 
 /* ═══════════════════════════════════════════════════════════

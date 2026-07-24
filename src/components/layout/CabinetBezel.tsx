@@ -3,14 +3,14 @@ import { useAppStore } from '../../store/appStore';
 /**
  * CabinetBezel — The signature element (§1).
  * Wraps the entire app in a persistent arcade cabinet frame with
- * mounting screws, vent slats, and a CRT scanline overlay.
+ * mounting screws and vent slats.
  */
 export default function CabinetBezel({ children }: { children: React.ReactNode }) {
   const mode = useAppStore((s) => s.mode);
 
   return (
     <div
-      className={`cabinet-bezel ${mode === 'arcade' ? 'crt-scanlines' : ''}`}
+      className="cabinet-bezel"
       style={{
         position: 'relative',
         maxWidth: '1400px',

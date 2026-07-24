@@ -5,7 +5,6 @@ import CabinetBezel from '../components/layout/CabinetBezel';
 import ArcadeHeader from '../components/layout/ArcadeHeader';
 import SidebarNav from '../components/layout/SidebarNav';
 import ToastLayer from '../components/shared/ToastLayer';
-import CRTOverlay from '../components/shared/CRTOverlay';
 import KonamiOverlay from '../components/shared/KonamiOverlay';
 import { useBeeper } from '../hooks/useBeeper';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
@@ -186,7 +185,6 @@ export default function App() {
         </div>
       </CabinetBezel>
 
-      <CRTOverlay />
       <KonamiOverlay />
       <ToastLayer />
     </>

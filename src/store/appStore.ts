@@ -7,14 +7,12 @@ interface AppState {
   section: Section;
   mode: Mode;
   muted: boolean;
-  crtEnabled: boolean;
   konamiActive: boolean;
   visitedSections: Set<Section>;
   debugMode: boolean;
   setSection: (s: Section) => void;
   toggleMode: () => void;
   toggleMute: () => void;
-  toggleCRT: () => void;
   activateKonami: () => void;
   markVisited: (s: Section) => void;
   enableDebugMode: () => void;
@@ -39,19 +37,11 @@ const getStoredMuted = (): boolean => {
   return true; // default muted per spec §6
 };
 
-const getStoredCRT = (): boolean => {
-  try {
-    const stored = localStorage.getItem('arcade_crt_enabled');
-    if (stored !== null) return stored === 'true';
-  } catch {}
-  return false; // CRT off by default for crisp clarity
-};
 
 export const useAppStore = create<AppState>((set) => ({
   section: 'profile',
   mode: getStoredMode(),
   muted: getStoredMuted(),
-  crtEnabled: getStoredCRT(),
   konamiActive: false,
   visitedSections: new Set<Section>(['profile']),
   debugMode: false,
@@ -77,12 +67,6 @@ export const useAppStore = create<AppState>((set) => ({
       return { muted: next };
     }),
 
-  toggleCRT: () =>
-    set((state) => {
-      const next = !state.crtEnabled;
-      try { localStorage.setItem('arcade_crt_enabled', String(next)); } catch {}
-      return { crtEnabled: next };
-    }),
 
   activateKonami: () =>
     set(() => {

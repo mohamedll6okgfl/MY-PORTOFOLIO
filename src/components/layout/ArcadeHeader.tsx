@@ -2,7 +2,6 @@ import { Gamepad2 } from 'lucide-react';
 import { PLAYER, SOCIAL_LINKS } from '../../data/content';
 import HighScoreCounter from '../shared/HighScoreCounter';
 import ModeToggle from './ModeToggle';
-import CRTToggle from './CRTToggle';
 import MuteToggle from './MuteToggle';
 import { useAppStore } from '../../store/appStore';
 import { useBeeper } from '../../hooks/useBeeper';
@@ -138,7 +137,6 @@ export default function ArcadeHeader() {
         </a>
 
         <ModeToggle />
-        <CRTToggle />
         <MuteToggle />
       </div>
     </header>
